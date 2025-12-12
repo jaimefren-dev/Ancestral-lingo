@@ -1,3 +1,4 @@
+
 import { KICHWA_DB, SHUAR_DB } from '../constants';
 import { Language, Question, CategoryId } from '../types';
 
@@ -32,7 +33,8 @@ export const generateLesson = (language: Language, category: CategoryId, questio
         question: item.native,
         correctAnswer: item.spanish,
         options,
-        audioText: item.native
+        audioText: item.native,
+        imageUrl: item.image
       };
     } else if (typeRoll < 0.6) {
       // Type 2: Listening (Audio -> Native Text Selection)
@@ -42,7 +44,8 @@ export const generateLesson = (language: Language, category: CategoryId, questio
         type: 'listening',
         audioText: item.native,
         correctAnswer: item.native,
-        options
+        options,
+        imageUrl: item.image
       };
     } else {
       // Type 3: Matching Pairs (Word Bank)

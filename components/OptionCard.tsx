@@ -8,6 +8,8 @@ interface OptionCardProps {
   shortcut?: number;
   disabled?: boolean;
   className?: string;
+  onPlayAudio?: () => void;
+  AudioIcon?: React.ElementType;
 }
 
 export const OptionCard: React.FC<OptionCardProps> = ({ 
@@ -17,9 +19,11 @@ export const OptionCard: React.FC<OptionCardProps> = ({
   onClick, 
   shortcut,
   disabled,
-  className = ''
+  className = '',
+  onPlayAudio,
+  AudioIcon
 }) => {
-  let styles = "w-full p-4 rounded-xl border-2 border-b-4 text-slate-700 font-medium text-lg cursor-pointer transition-all active:translate-y-[2px] active:border-b-2 flex items-center justify-between";
+  let styles = "w-full p-4 rounded-2xl border-2 border-b-4 text-slate-700 font-bold text-lg cursor-pointer transition-all active:translate-y-[2px] active:border-b-2 flex items-center justify-between group relative overflow-hidden";
   
   if (disabled) {
      styles += " opacity-60 cursor-not-allowed";
@@ -39,8 +43,43 @@ export const OptionCard: React.FC<OptionCardProps> = ({
 
   return (
     <div onClick={disabled ? undefined : onClick} className={`${styles} ${className}`}>
-      <span>{text}</span>
-      {shortcut && <span className="text-xs border border-slate-200 rounded px-1.5 py-0.5 text-slate-400 hidden md:inline-block">{shortcut}</span>}
+      {/* Main Text */}
+      <span className="flex-1 pr-4">{text}</span>
+      
+      {/* Actions Container */}
+      <div className="flex items-center gap-3 pl-3 border-l border-black/5">
+        {onPlayAudio && AudioIcon && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onPlayAudio();
+            }}
+            disabled={disabled}
+            className={`
+              w-10 h-10 rounded-xl flex items-center justify-center transition-all
+              ${selected 
+                ? 'bg-white/20 hover:bg-white/40 text-current' 
+                : 'bg-slate-100 hover:bg-sky-100 text-slate-400 hover:text-sky-500'
+              }
+            `}
+            title="Escuchar pronunciación"
+          >
+            <AudioIcon className="w-5 h-5" />
+          </button>
+        )}
+        
+        {shortcut && (
+          <span className={`
+            hidden md:flex w-7 h-7 items-center justify-center text-xs font-bold rounded-lg border-b-2
+            ${selected 
+               ? 'border-current opacity-60' 
+               : 'bg-white border-slate-200 text-slate-300'
+            }
+          `}>
+            {shortcut}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,6 @@
+
 export type Language = 'kichwa' | 'shuar';
-export type CategoryId = 'greetings' | 'numbers' | 'colors' | 'animals' | 'food';
+export type CategoryId = 'greetings' | 'numbers' | 'colors' | 'animals' | 'food' | 'sentences';
 
 export interface Category {
   id: CategoryId;
@@ -12,6 +13,7 @@ export interface Category {
 export interface VocabItem {
   native: string;
   spanish: string;
+  image?: string; // Optional URL for visuals
 }
 
 export interface Question {
@@ -22,6 +24,8 @@ export interface Question {
   correctAnswer?: string; // For multiple choice
   options?: string[]; // For multiple choice
   pairs?: { id: string; text: string; type: 'native' | 'spanish'; matchId: string }[]; // For matching
+  optionImages?: Record<string, string>; // Map option text to image URL
+  imageUrl?: string; // Image associated with the question prompt
 }
 
 export interface UserProgress {
